@@ -1,0 +1,24 @@
+{
+  "name": "homework-7",
+  "version": "1.0.0",
+  "description": "Profile Generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JGABREU2145/homework-7.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JGABREU2145/homework-7/issues"
+  },
+  "homepage": "https://github.com/JGABREU2145/homework-7#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "inquirer": "^7.0.0"
+  }
+}
