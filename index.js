@@ -49,7 +49,7 @@ function generateHTML(answers) {
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
       <title>Document</title>
     </head>
-    <body style = "background-color:${answers.color}>
+    <body style = "background:${answers.color}">
       <div class="jumbotron jumbotron-fluid">
       <div class="container">
         <h1 class="display-4">Hi! My name is ${answers.name}</h1>
@@ -69,10 +69,10 @@ promptUser()
 .then(function(answers){
     const html = generateHTML(answers);
 
-    return writeFileAsync("minilab.html", html);
+    return writeFileAsync("index.html", html);
 })
 .then(function() {
-    console.log("Successfully wrote to minilab.html")
+    console.log("Successfully wrote to index.html")
 })
 .catch(function(err) {
     console.log(err);
