@@ -5,19 +5,88 @@
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-      <title>Document</title>
+      <title>Justin Abreu's Profile</title>
+      <style>
+      .jumbotron-fluid {
+        padding-right: 0;
+        padding-left: 0;
+        border-radius: 0;
+        margin: auto;
+        width: 80%;
+      }
+      .container {
+        width: 80%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        text-align: center;
+
+      }
+      .infoBox {
+        background: orange;
+        border-radius: 5px;
+        height: 100px;
+        width: 100px;
+        margin: 0 auto;
+        margin-bottom: 20px;
+        padding: 15px;
+        
+      }
+      a {
+        color: black;
+      }
+
+      .bio {
+        text-align: center;
+        color: papayawhip;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        
+      }
+      
+      </style>
     </head>
-    <body style = "background:orange">
+    <body style = "background:blue">
       <div class="jumbotron jumbotron-fluid">
       <div class="container">
+        <div><img src="https://via.placeholder.com/150" ></div>
         <h1 class="display-4">Hi! My name is Justin Abreu</h1>
-        <p class="lead">I am from Austin, TX.</p>
-        <h3>Example heading <span class="badge badge-secondary">Contact Me</span></h3>
-        <ul class="list-group">
-          <li class="list-group-item">My GitHub username is undefined</li>
-          <li class="list-group-item">LinkedIn: undefined</li>
-        </ul>
+        <p class="lead">I am from Vegas.</p> 
+        
+        <div class="row">
+          <div class="col-sm">
+            <a href = "https://google.com/maps/Austin+">${cityData},${stateData}</a>
+          </div>
+          <div class="col-sm">
+          <a href = "https://github.com/JGABREU2145">My GitHub</a>
+          </div>
+          <div class="col-sm">
+            <a href = "https://www.linkedin.com/in/justin-abreu-b4a081129/">My LinkedIn</a>
+          </div>          
+        </div>        
       </div>
+    </div>
+    <br>
+    <div class="bio">
+      <h3>This is my bio and it says some stuff</h3>
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-3 infoBox"><h3>Repsitories</h3>
+              <div><h4>num</h4></div>
+            </div>
+            <div class="col-3 infoBox"><h3>Stars</h3>
+                <div><h4>num</h4></div>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-3 infoBox"><h3>Followers</h3>
+                <div><h4>num</h4></div>
+            </div>
+            <div class="col-3 infoBox"><h3>Following</h3>
+                <div><h4>num</h4></div>
+            </div>
+          </div>
     </div>
     </body>
     </html>

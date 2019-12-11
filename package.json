@@ -19,6 +19,8 @@
   "homepage": "https://github.com/JGABREU2145/homework-7#readme",
   "dependencies": {
     "axios": "^0.19.0",
-    "inquirer": "^7.0.0"
+    "fs": "0.0.1-security",
+    "inquirer": "^7.0.0",
+    "pdf-puppeteer": "^1.1.9"
   }
 }
