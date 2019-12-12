@@ -145,114 +145,52 @@ promptUser()
     // first, get the userid for github
     var urlParts = answers.github.split("/");
     var githubUsername = urlParts[urlParts.length - 1];
-    var githubData = {};     
+    var githubData = {};  
     
-    var profileUrl = `https://api.github.com/users/${githubUsername}`;
-    var starsUrl = `https://api.github.com/users/${githubUsername}/starred`;
+    var cityData = answers.location.split(' ')[0];
+        console.log(cityData)
+        var stateData = answers.location.slice(-2);  
+        console.log(stateData)  
     
-    axios.all([
-      axios.get(profileUrl),
-      axios.get(starsUrl),
-        
-    ])
-    .then(axios.spread(function(profileUrl, starsUrl) {  
-        githubData.repositoriesCount = profileUrl.public_repos;
-        githubData.followersCount = profileUrl.followers;
-        githubData.followingCount = profileUrl.following;
-        githubData.profilePicture = profileUrl.avatar_url;
-        githubData.starsCount = starsUrl.length;        
+    function profileUrl() {
+      return axios.get(`https://api.github.com/users/${githubUsername}`)
+    };
+    function starsUrl() {
+      return axios.get(`https://api.github.com/users/${githubUsername}/starred`)
+    };
+    
+    axios.all([profileUrl(), starsUrl()])
+    .then(axios.spread(function(profile, stars) {  
+        githubData.repositoriesCount = profile.public_repos;
+        githubData.followersCount = profile.followers;
+        githubData.followingCount = profile.following;
+        githubData.profilePicture = profile.avatar_url;
+        githubData.starsCount = stars.length;        
        
-        var cityData = answers.location.slice(' ')[0];
-        var stateData = answers.location.slice(-2);
-       
+           
         
         // Then, generate HTML and then pass to PDF to save
         const html = generateHTML(answers, githubData, cityData, stateData);
         generateHTML(html, onPDFComplete, pdfOptions);
-        writeFileAsync("index.html", html);        
-        
-        var pdfOptions = {
-            path: 'index.html',
-            printBackground: true
-        };
+        writeFileAsync("index.html", html);   
         
         convertHTMLToPDF(html, onPDFComplete, pdfOptions);
-        var onPDFComplete = function (pdfOptions) {
+        var pdfOptions = {
+          path: 'profile.pdf',
+          printBackground: true
+      };
+        var onPDFComplete = function () {
           console.log("Successfully wrote to profile.pdf");
         };
       })
     .then(function() {
-      console.log("Successfully wrote to index.html")
-        
+      console.log("Successfully wrote to index.html")        
     }))
     .catch(function(error) {
          console.log(error)
-    });
-    
+    });    
 })
 .catch(function(error) {
   console.log(error)
 });
 
-
-/*promptUser()
-.then(function(answers){
-    const html = generateHTML(answers, githubData, googleMapsData);
-    const options = {
-        path: "profile.pdf",
-        printBackground: true
-    };
-    //convertHTMLToPDF(html, onPDFComplete, options);
-    return writeFileAsync("index.html", html);
-})
-.then(function() {
-    console.log("Successfully wrote to index.html");
-})
-.catch(function(err) {
-    console.log(err);
-});
-
-/*promptUser()
-.then(function(answers) {
-    // first, get the userid for github
-    var urlParts = answers.github.split("/");
-    var githubUsername = urlParts[urlParts.length - 1];
-    var githubData = {};
-    var googleMapsData = {};
-    
-    var profileUrl = `https://api.github.com/users/${githubUsername}`;
-    // then, call github and google maps APIs
-    var starsUrl = `https://api.github.com/users/${githubUsername}/starred`;
-    var googleMapsUrl = ""; // TODO: figure out google maps
-    
-    axios.all([
-        axios.get(profileUrl),
-        axios.get(starsUrl),
-        axios.get(googleMapsUrl)
-    ])
-    .then(axios.spread(function(profile, stars, googleMapsResponse) {  
-        githubData.repositoriesCount = profile.public_repos;
-        githubData.followersCount = profile.followers;
-        githubData.followingCount = profile.following;
-        githubData.profilePicture = profile.avatar_url;
-        githubData.starsCount = stars.length;
-        
-        // TODO: figure out google maps data response
-        //googleMapsData.whatever = googleMapsResponse.whatever;
-        
-        // Then, generate HTML and then pass to PDF to save
-        const html = generateHTML(answers, githubData, googleMapsData);
-        
-        var pdfOptions = {
-            path: 'your_path.pdf',
-            printBackground: true
-        };
-        convertHTMLToPDF(html, onPDFComplete, pdfOptions);
-        
-    }))
-    .catch(function(error) {
-         console.log(error)
-    });
-})
-.catch(function(err) {
-});*/
