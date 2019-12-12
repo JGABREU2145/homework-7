@@ -18,7 +18,7 @@ function promptUser() {
         type: "input",
         message: "What is your favorite color?",
         name: "color",
-        default: "orange"
+        default: "red"
       },
     {
       type: "input",
@@ -149,7 +149,7 @@ promptUser()
     
     var cityData = answers.location.split(' ')[0];
         console.log(cityData)
-        var stateData = answers.location.slice(-2);  
+      var stateData = answers.location.slice(-2);  
         console.log(stateData)  
     
     function profileUrl() {
@@ -175,6 +175,7 @@ promptUser()
         writeFileAsync("index.html", html);   
         
         convertHTMLToPDF(html, onPDFComplete, pdfOptions);
+
         var pdfOptions = {
           path: 'profile.pdf',
           printBackground: true
