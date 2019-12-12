@@ -2,7 +2,7 @@ const fs = require("fs");
 const inquirer = require("inquirer");
 const util = require("util");
 const axios = require("axios");
-//const convertHTMLToPDF = require("pdf-puppeteer");
+const convertHTMLToPDF = require("pdf-puppeteer");
 
 const writeFileAsync = util.promisify(fs.writeFile);
 
@@ -140,69 +140,58 @@ function generateHTML(answers) {
     </html>`
 };
 
-//var onPDFComplete = function (pdf) {
-   // console.log("Successfully wrote to profile.pdf");
-//};
-
-
 promptUser()
 .then(function(answers) {
     // first, get the userid for github
     var urlParts = answers.github.split("/");
     var githubUsername = urlParts[urlParts.length - 1];
-    var githubData = {}; 
-    
-    var cityData = answers.location.slice(' ')[0];
-    var stateData = answers.location.slice(-2);
+    var githubData = {};     
     
     var profileUrl = `https://api.github.com/users/${githubUsername}`;
-    // then, call github and google maps APIs
     var starsUrl = `https://api.github.com/users/${githubUsername}/starred`;
     
-  
-    
     axios.all([
-        axios.get(profileUrl),
-        axios.get(starsUrl),
+      axios.get(profileUrl),
+      axios.get(starsUrl),
         
     ])
-    .then(axios.spread(function(profileUrl, starsUrl, cityData, stateData) {  
+    .then(axios.spread(function(profileUrl, starsUrl) {  
         githubData.repositoriesCount = profileUrl.public_repos;
         githubData.followersCount = profileUrl.followers;
         githubData.followingCount = profileUrl.following;
         githubData.profilePicture = profileUrl.avatar_url;
         githubData.starsCount = starsUrl.length;        
        
-        cityData;
-        stateData;
-    })
-    .then(function() {
+        var cityData = answers.location.slice(' ')[0];
+        var stateData = answers.location.slice(-2);
+       
         
         // Then, generate HTML and then pass to PDF to save
-      const html = generateHTML(answers, githubData);
-      generateHTML(html, onPDFComplete, pdfOptions);
-        return writeFileAsync("index.html", html);
+        const html = generateHTML(answers, githubData, cityData, stateData);
+        generateHTML(html, onPDFComplete, pdfOptions);
+        writeFileAsync("index.html", html);        
         
-        //CHANGE ME TO PDF WHEN COMPLETE. CHANGE ME TO PDF WHEN COMPLETE
-        /*var pdfOptions = {
+        var pdfOptions = {
             path: 'index.html',
-            //printBackground: true
-        };*/
-
-        //UNDO ME WHEN FINISHED****************************
-        //convertHTMLToPDF(html, onPDFComplete, pdfOptions);
+            printBackground: true
+        };
         
-})
-.then(function() {
-    console.log("Successfully wrote to index.html")
+        convertHTMLToPDF(html, onPDFComplete, pdfOptions);
+        var onPDFComplete = function (pdfOptions) {
+          console.log("Successfully wrote to profile.pdf");
+        };
+      })
+    .then(function() {
+      console.log("Successfully wrote to index.html")
         
     }))
     .catch(function(error) {
          console.log(error)
-    })
-    .catch(function(error) {
-        console.log(error)
     });
+    
+})
+.catch(function(error) {
+  console.log(error)
 });
 
 
